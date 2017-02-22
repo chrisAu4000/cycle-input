@@ -1,4 +1,5 @@
 import xs from 'xstream'
+import {prop} from 'ramda'
 import intent from './intent'
 import model from './model'
 import view from './view'
@@ -16,7 +17,7 @@ import view from './view'
  * @param {Function} [props.easing = linear ease] - xstream/extra/tween easing function.
  * @returns {Object} {
  *    DOM :: vtree,
- *    clicked$ :: Stream
+ *    value$ :: Stream
  * }
  * @example <caption>app.js</caption>
  * import {run} from '@cycle/xstream-run'
@@ -67,7 +68,8 @@ const Input = (sources, props) => {
   const actions = intent(sources)
   const state$ = model(props, actions)
   return {
-    DOM: view(state$)
+    DOM: view(state$),
+    value$: state$.map(prop('value'))
   }
 }
 

@@ -6,7 +6,7 @@ Displays a Input which can be animated to disapear.
 **Kind**: global function  
 **Returns**: <code>Object</code> - {
    DOM :: vtree,
-   clicked$ :: Stream
+   value$ :: Stream
 }  
 
 | Param | Type | Default | Description |
