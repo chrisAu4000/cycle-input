@@ -14,7 +14,7 @@ import {div} from '@cycle/dom'
  */
 function main(sources) {
   const duration = 250
-  const click$ = sources.DOM.select('#app')
+  const click$ = sources.DOM.select('.collaps')
     .events('click')
     .mapTo(false)
     .fold((acc, curr) => !acc, true)
@@ -29,12 +29,14 @@ function main(sources) {
   const input = Input(sources, props)
   return {
     DOM: input.DOM.map(input =>
-      div('.container', {
-        style: {
-          height: '50px'
-        }
-      }, [input])
-    )
+       div([
+         input,
+         div('.collaps', {style: {
+           width: '100px',
+           height: '50px',
+           'background-color': 'grey'
+         }}, 'Collaps')
+       ]))
   }
 }
 

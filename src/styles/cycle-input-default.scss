@@ -1,4 +1,15 @@
-
-.cycle-input {
-
+.cycle-input-wrapper {
+  height: 50px;
+  top: 100px;
+  margin: 10px;
+  .cycle-input {
+    opacity: 0;
+    width: 500px;
+    border: none;
+    border-bottom: 1px solid #5C5C58;
+    text-align: center;
+    background: transparent;
+    outline: 0;
+    font-size: 30px;
+  }
 }
