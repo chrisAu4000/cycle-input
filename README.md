@@ -1,7 +1,7 @@
-<a name="HttpButton"></a>
+<a name="Input"></a>
 
-## HttpButton(sources, props) ⇒ <code>Object</code>
-Displays a Button that is able to be shown as button or as loading spinner.
+## Input(sources, props) ⇒ <code>Object</code>
+Displays a Input which can be animated to disapear.
 
 **Kind**: global function  
 **Returns**: <code>Object</code> - {
@@ -14,9 +14,10 @@ Displays a Button that is able to be shown as button or as loading spinner.
 | sources | <code>Object</code> |  | Source streams. |
 | sources.DOM | <code>DOMSource</code> |  | DOMDriver to select elements and invoke events. |
 | props | <code>Object</code> |  | Contains the initial state of the HttpButton. |
-| props.text$ | <code>Stream</code> |  | Stream of Strings that will be displayed as button text. |
-| props.loading$ | <code>Stream</code> |  | Stream of Booleans true if button is in loading state. |
+| props.value$ | <code>Stream</code> |  | Stream of Strings that will be the inital value of the input. |
+| props.placeholder$ | <code>Stream</code> |  | Stream of Strings that will be the placeholder of the input. |
 | props.duration$ | <code>Stream</code> |  | Transition duration. |
+| props.visible$ | <code>Stream</code> |  | Stream of Booleans that can be emitted to hide or show the input. |
 | [props.className] | <code>String</code> |  | Additional className. |
 | [props.easing] | <code>function</code> | <code>linear ease</code> | xstream/extra/tween easing function. |
 
@@ -29,22 +30,18 @@ import delay from 'xstream/extra/delay'
 import tween from 'xstream/extra/tween'
 
 function main (sources) {
-  const duration        = 250
-  const textProxy$      = xs.create()
-  const resetTextProxy$ = xs.create()
-  const loadProxy$      = xs.create()
+  const duration = 250
+  const visibility$ // some stream that emits a boolean
   const props = {
-    text$:     xs.merge(xs.of('Signin'), textProxy$, resetTextProxy$),
-    loading$:  xs.merge(xs.of(false), loadProxy$),
-    duration$: xs.of(duration),
-    easing:    tween.power2.easeIn
+    value$:       xs.of('Hi'),
+    placeholder$: xs.of('Placeholder'),
+    visible$:     xs.merge(xs.of(true), visibility$),
+    duration$:    xs.of(duration),
+    easing:       tween.power2.easeIn
   }
-  const httpButton = HttpButton(sources, props)
-  textProxy$.imitate(httpButton.clicked$.mapTo('Loading ...'))
-  resetTextProxy$.imitate(httpButton.clicked$.mapTo('Signin').compose(delay(4 * duration)))
-  loadProxy$.imitate(httpButton.clicked$.mapTo(false).compose(delay(4 * duration)))
+  const input = Input(sources, props)
   return {
-    DOM: httpButton.DOM
+    DOM: input.DOM
   }
 }
 
@@ -55,7 +52,7 @@ const drivers = {
 run(main, drivers)
 ```
 **Example** *(index.html)*  
-```html
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
