@@ -1,25 +1,25 @@
 import concat from 'xstream/extra/concat'
 import xs from 'xstream'
 import tween from 'xstream/extra/tween'
-import {curry} from 'ramda'
+import {curry, prop} from 'ramda'
 
-const tweenOpts = curry((ease, duration, from, to) => ({
-  from,
-  to,
-  ease: ease || tween.linear.ease,
-  duration
-}))
+const tweenOpts = curry((ease, duration, from, to) => {
+  return {
+    from,
+    to,
+    ease: ease || tween.linear.ease,
+    duration
+  }
+})
 
-const model = ({
-  value$,
-  placeholder$,
-  visible$,
-  duration$,
-  easing,
-  className
-  }, {input$}) => {
-  const tweenOpts$ = duration$.map(duration => tweenOpts(easing, duration))
-  const val$ = xs.merge(value$, input$)
+const model = (props$, {input$}) => {
+  const tweenOpts$ = props$
+    .map(({easing, duration}) => tweenOpts(easing, duration))
+  const value$ = xs.merge(
+    props$.map(prop('value')),
+    input$
+  )
+  const visible$ = props$.map(prop('visible'))
   const initialVis$ = visible$
     .take(1)
     .map(visible => visible === true ? 100 : 0)
@@ -31,12 +31,13 @@ const model = ({
       tweenOpts$.map(opts => opts(100, 0))
     )
     .flatten()
-    .debug(console.log)
     .map(tween)
     .flatten()
-  const vis$ = concat(initialVis$, defaultVis$)
-  const state$ = xs.combine(val$, placeholder$, vis$)
-    .map(([value, placeholder, transition]) => ({
+  const visibility$ = concat(initialVis$, defaultVis$)
+  const placeholder$ = props$.map(prop('placeholder'))
+  const className$ = props$.map(prop('className'))
+  const state$ = xs.combine(value$, placeholder$, visibility$, className$)
+    .map(([value, placeholder, transition, className]) => ({
       value,
       placeholder,
       transition,

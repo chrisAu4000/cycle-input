@@ -67,13 +67,13 @@ describe('cycle-input', _ => {
   })
 
   describe('model', _ => {
-    const props = {
-      value$:       xs.of('test'),
-      placeholder$: xs.of('Placeholder'),
-      visible$:     xs.of(true),
-      duration$:    xs.of(100),
-      className:    'hello'
-    }
+    const props = xs.of({
+      value:       'test',
+      placeholder: 'Placeholder',
+      visible:     true,
+      duration:    100,
+      className:   'hello'
+    })
     const state$ = model(props, {input$: xs.empty()})
     it('should return the initial value', function(done) {
       const test$ = state$.map(prop('value'))

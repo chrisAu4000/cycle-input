@@ -64,9 +64,9 @@ import view from './view'
  * <script src="app.js"></script>
  * </html>
 **/
-const Input = (sources, props) => {
+const Input = (sources, props$) => {
   const actions = intent(sources)
-  const state$ = model(props, actions)
+  const state$ = model(props$, actions)
   return {
     DOM: view(state$),
     value$: state$.map(prop('value'))

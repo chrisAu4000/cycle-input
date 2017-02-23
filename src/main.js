@@ -14,19 +14,25 @@ import {div} from '@cycle/dom'
  */
 function main(sources) {
   const duration = 250
-  const click$ = sources.DOM.select('.collaps')
+
+  const props = {
+    value:       'Hi',
+    placeholder: 'Placeholder',
+    visible:     true,
+    duration:    duration,
+    easing:      tween.power2.easeIn,
+    className:   'hello'
+  }
+  const props$ = sources.DOM.select('.collaps')
     .events('click')
     .mapTo(false)
     .fold((acc, curr) => !acc, true)
-  const props = {
-    value$:       xs.of('Hi'),
-    placeholder$: xs.of('Placeholder'),
-    visible$:     xs.merge(xs.of(true), click$),
-    duration$:    xs.of(duration),
-    easing:       tween.power2.easeIn,
-    className:    'hello'
-  }
-  const input = Input(sources, props)
+    .map(visible => Object.assign({}, props, {
+      visible,
+      easing: visible ? tween.power2.easeOut : tween.power2.easeIn
+    }))
+
+  const input = Input(sources, props$)
   return {
     DOM: input.DOM.map(input =>
        div([

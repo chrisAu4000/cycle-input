@@ -12,6 +12,7 @@ const view = (state$) => {
         },
         style: {
           height: transition + '%',
+          width: transition + '%',
           opacity: transition < 30 ? transition / 30 : 1,
         },
       })
