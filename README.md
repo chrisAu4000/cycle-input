@@ -2,6 +2,10 @@
 
 ## Input(sources, props) ⇒ <code>Object</code>
 Displays a Input which can be animated to disapear.
+Installation:
+```bash
+$ npm install --save git+https://github.com/chrisAu4000/cycle-input.git
+```
 
 **Kind**: global function  
 **Returns**: <code>Object</code> - {
@@ -24,7 +28,7 @@ Displays a Input which can be animated to disapear.
 **Example** *(app.js)*  
 ```js
 import {run} from '@cycle/xstream-run'
-import {makeDOMDriver} from '@cycle/dom'
+import {makeDOMDriver, div} from '@cycle/dom'
 import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import tween from 'xstream/extra/tween'
@@ -65,21 +69,4 @@ const drivers = {
 }
 
 run(main, drivers)
-```
-**Example** *(index.html)*  
-```js
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="icon.ico" sizes="16x16" type="image/vnd.microsoft.icon">
-  <link rel="stylesheet" href="/build/main.css">
-  <title>Title</title>
-</head>
-<body>
-  <div id="app"></div>
-</body>
-<script src="app.js"></script>
-</html>
 ```

@@ -6,6 +6,11 @@ import view from './view'
 
 /**
  * Displays a Input which can be animated to disapear.
+ * Installation:
+ * ```bash
+ * $ npm install --save git+https://github.com/chrisAu4000/cycle-input.git
+ * ```
+ * @kind function
  * @param {Object} sources - Source streams.
  * @param {DOMSource} sources.DOM - DOMDriver to select elements and invoke events.
  * @param {Stream} props - Contains the initial state of the HttpButton.
@@ -62,22 +67,6 @@ import view from './view'
  * }
  *
  * run(main, drivers)
- *
- * @example <caption>index.html</caption>
- * <!DOCTYPE html>
- * <html lang="en">
- * <head>
- *   <meta charset="utf-8">
- *   <meta name="viewport" content="width=device-width, initial-scale=1">
- *   <link rel="icon" href="icon.ico" sizes="16x16" type="image/vnd.microsoft.icon">
- *   <link rel="stylesheet" href="/build/main.css">
- *   <title>Title</title>
- * </head>
- * <body>
- *   <div id="app"></div>
- * </body>
- * <script src="app.js"></script>
- * </html>
 **/
 const Input = (sources, props$) => {
   const actions = intent(sources)
