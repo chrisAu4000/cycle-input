@@ -45,14 +45,15 @@ import view from './view'
  *   const input = Input(sources, props$)
  *   return {
  *     DOM: input.DOM.map(input =>
- *    div([
- *      input,
- *      div('.collaps', {style: {
- *        width: '100px',
- *        height: '50px',
- *        'background-color': 'grey'
- *      }}, 'Collaps')
- *    ]))
+ *       div([
+ *         input,
+ *         div('.collaps', {style: {
+ *           width: '100px',
+ *           height: '50px',
+ *           'background-color': 'grey'
+ *         }}, 'Collaps')
+ *       ])
+ *     )
  *   }
  * }
  *
