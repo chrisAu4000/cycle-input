@@ -21,7 +21,7 @@ import view from './view'
  * }
  * @example <caption>app.js</caption>
  * import {run} from '@cycle/xstream-run'
- * import {makeDOMDriver} from '@cycle/dom'
+ * import {makeDOMDriver, div} from '@cycle/dom'
  * import xs from 'xstream'
  * import delay from 'xstream/extra/delay'
  * import tween from 'xstream/extra/tween'

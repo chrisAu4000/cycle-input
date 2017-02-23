@@ -36,6 +36,11 @@
   "author": "Christian Auer",
   "license": "MIT",
   "homepage": "https://github.com/chrisAu4000/cycle-input.git#readme",
+  "component": {
+    "scripts": {
+      "cycle-input/src/components/input/index.js": "index.js"
+    }
+  },
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
