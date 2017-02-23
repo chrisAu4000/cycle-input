@@ -8,11 +8,11 @@ import view from './view'
  * Displays a Input which can be animated to disapear.
  * @param {Object} sources - Source streams.
  * @param {DOMSource} sources.DOM - DOMDriver to select elements and invoke events.
- * @param {Object} props - Contains the initial state of the HttpButton.
- * @param {Stream} props.value$ - Stream of Strings that will be the inital value of the input.
- * @param {Stream} props.placeholder$ - Stream of Strings that will be the placeholder of the input.
- * @param {Stream} props.duration$ - Transition duration.
- * @param {Stream} props.visible$ - Stream of Booleans that can be emitted to hide or show the input.
+ * @param {Stream} props - Contains the initial state of the HttpButton.
+ * @param {String} props.value$ - Stream of Strings that will be the inital value of the input.
+ * @param {String} props.placeholder$ - Stream of Strings that will be the placeholder of the input.
+ * @param {Number} props.duration$ - Transition duration in ms.
+ * @param {Boolean} props.visible$ - Stream of Booleans that can be emitted to hide or show the input.
  * @param {String} [props.className] - Additional className.
  * @param {Function} [props.easing = linear ease] - xstream/extra/tween easing function.
  * @returns {Object} {
@@ -27,18 +27,32 @@ import view from './view'
  * import tween from 'xstream/extra/tween'
  *
  * function main (sources) {
- *   const duration = 250
- *   const visibility$ // some stream that emits a boolean
  *   const props = {
- *     value$:       xs.of('Hi'),
- *     placeholder$: xs.of('Placeholder'),
- *     visible$:     xs.merge(xs.of(true), visibility$),
- *     duration$:    xs.of(duration),
- *     easing:       tween.power2.easeIn
+ *     value:       'Value',
+ *     placeholder: 'Placeholder',
+ *     visible:     true,
+ *     duration:    250,
+ *     easing:      tween.power2.easeIn
  *   }
- *   const input = Input(sources, props)
+ *   const props$ = sources.DOM.select('.collaps')
+ *    .events('click')
+ *    .mapTo(false)
+ *    .fold((acc, curr) => !acc, true)
+ *    .map(visible => Object.assign({}, props, {
+ *     visible,
+ *      easing: visible ? tween.power2.easeOut : tween.power2.easeIn
+ *    }))
+ *   const input = Input(sources, props$)
  *   return {
- *     DOM: input.DOM
+ *     DOM: input.DOM.map(input =>
+ *    div([
+ *      input,
+ *      div('.collaps', {style: {
+ *        width: '100px',
+ *        height: '50px',
+ *        'background-color': 'grey'
+ *      }}, 'Collaps')
+ *    ]))
  *   }
  * }
  *
