@@ -1,7 +1,7 @@
 import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import tween from 'xstream/extra/tween'
-import Input from './components/input'
+import Input from '../src/input'
 import {div} from '@cycle/dom'
 /**
  * Props:

@@ -5,8 +5,8 @@ import delay from 'xstream/extra/delay'
 import mocha from 'mocha'
 import {assert} from 'chai'
 import {prop} from 'ramda'
-import intent from '../src/components/input/intent'
-import model from '../src/components/input/model'
+import intent from '../src/input/intent'
+import model from '../src/input/model'
 
 const assertion = (stream, fn, expected, done) => stream.addListener({
     next: x => {
