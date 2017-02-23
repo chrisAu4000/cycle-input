@@ -20,10 +20,10 @@ const model = (props$, {input$}) => {
     input$
   )
   const visible$ = props$.map(prop('visible'))
-  const initialVis$ = visible$
+  const initialVisibility$ = visible$
     .take(1)
     .map(visible => visible === true ? 100 : 0)
-  const defaultVis$ = visible$
+  const transitionVisibility$ = visible$
     .drop(1)
     .map(visible =>
       visible === true ?
@@ -33,10 +33,10 @@ const model = (props$, {input$}) => {
     .flatten()
     .map(tween)
     .flatten()
-  const visibility$ = concat(initialVis$, defaultVis$)
+  const transition$ = concat(initialVisibility$, transitionVisibility$)
   const placeholder$ = props$.map(prop('placeholder'))
   const className$ = props$.map(prop('className'))
-  const state$ = xs.combine(value$, placeholder$, visibility$, className$)
+  const state$ = xs.combine(value$, placeholder$, transition$, className$)
     .map(([value, placeholder, transition, className]) => ({
       value,
       placeholder,

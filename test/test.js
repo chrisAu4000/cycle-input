@@ -2,7 +2,8 @@ import xs from 'xstream'
 import streamAdapter from '@cycle/xstream-adapter'
 import {mockDOMSource} from '@cycle/dom'
 import delay from 'xstream/extra/delay'
-import mocha from 'mocha'
+import tween from 'xstream/extra/tween'
+import fromDiagram from 'xstream/extra/fromDiagram'
 import {assert} from 'chai'
 import {prop} from 'ramda'
 import intent from '../src/input/intent'
@@ -20,9 +21,7 @@ const assertion = (stream, fn, expected, done) => stream.addListener({
     error: err => done ? done(err) : console.error(err),
     complete: () => {}
   })
-
 const testInput = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd']
-
 describe('cycle-input', _ => {
   describe('intent', _ => {
     const domSource = mockDOMSource(streamAdapter, {
@@ -65,16 +64,17 @@ describe('cycle-input', _ => {
       assertion(actions.input$.drop(10).take(1), assert.strictEqual, 'd', done)
     })
   })
-
   describe('model', _ => {
-    const props = xs.of({
+    const props = {
       value:       'test',
       placeholder: 'Placeholder',
       visible:     true,
-      duration:    100,
-      className:   'hello'
-    })
-    const state$ = model(props, {input$: xs.empty()})
+      duration:    1000,
+      className:   'hello',
+      easing:      tween.linear.ease
+    }
+    const props$ = xs.of(props)
+    const state$ = model(props$, {input$: xs.empty()})
     it('should return the initial value', function(done) {
       const test$ = state$.map(prop('value'))
       assertion(test$, assert.strictEqual, 'test', done)
@@ -87,7 +87,7 @@ describe('cycle-input', _ => {
       const test$ = state$.map(prop('className'))
       assertion(test$, assert.strictEqual, 'hello', done)
     })
-    it('should return 100', function(done) {
+    it('should return transition: 100', function(done) {
       const test$ = state$.map(prop('transition'))
       assertion(test$, assert.strictEqual, 100, done)
     })
